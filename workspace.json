@@ -1,8 +1,71 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "pending-transactions": {
+      "root": "apps/pending-transactions",
+      "sourceRoot": "apps/pending-transactions/src",
+      "projectType": "application",
+      "prefix": "pending-transactions",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/pending-transactions",
+            "main": "apps/pending-transactions/src/main.ts",
+            "tsConfig": "apps/pending-transactions/tsconfig.app.json",
+            "assets": [
+              "apps/pending-transactions/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/pending-transactions/src/environments/environment.ts",
+                  "with": "apps/pending-transactions/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "pending-transactions:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/pending-transactions/.eslintrc",
+            "tsConfig": [
+              "apps/pending-transactions/tsconfig.app.json",
+              "apps/pending-transactions/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/pending-transactions/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/pending-transactions/jest.config.js",
+            "tsConfig": "apps/pending-transactions/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/node"
   },
   "schematics": {
     "@nrwl/workspace": {
@@ -59,5 +122,6 @@
         "linter": "eslint"
       }
     }
-  }
+  },
+  "defaultProject": "pending-transactions"
 }
