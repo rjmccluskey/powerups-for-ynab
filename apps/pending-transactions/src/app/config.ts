@@ -1,15 +1,5 @@
 import { NodeEnv } from './node-env';
-
-function getEnvVar(name: string): string
-function getEnvVar(name: string, fallback: string): string
-function getEnvVar(name: string, fallback: null): string|null
-function getEnvVar(name: string, fallback: string|null|undefined = undefined): string|null {
-  const value = process.env[name] || fallback;
-  if (value === undefined) {
-    throw new Error(`Missing env variable ${name}`);
-  }
-  return value;
-}
+import { getEnvVar } from '@pfy/utils';
 
 export interface Config {
   ynabToken: string;
