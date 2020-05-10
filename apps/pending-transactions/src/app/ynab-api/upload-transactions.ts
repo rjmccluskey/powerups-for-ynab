@@ -1,7 +1,7 @@
 import { API, Account, SaveTransaction } from 'ynab';
 import { TransactionsByAccount, Transaction } from '../shared';
 import { ynabErrorWrapper } from './ynab-error-wrapper';
-import { throwMultiple } from '../utils';
+import { throwMultiple } from '@pfy/utils';
 import { DateTime } from 'luxon';
 
 export async function uploadTransactionsToYnab(ynab: API,

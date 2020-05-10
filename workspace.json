@@ -14,9 +14,7 @@
             "outputPath": "dist/apps/pending-transactions",
             "main": "apps/pending-transactions/src/main.ts",
             "tsConfig": "apps/pending-transactions/tsconfig.app.json",
-            "assets": [
-              "apps/pending-transactions/src/assets"
-            ]
+            "assets": ["apps/pending-transactions/src/assets"]
           },
           "configurations": {
             "production": {
@@ -47,10 +45,7 @@
               "apps/pending-transactions/tsconfig.app.json",
               "apps/pending-transactions/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/pending-transactions/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/pending-transactions/**"]
           }
         },
         "test": {
@@ -58,6 +53,34 @@
           "options": {
             "jestConfig": "apps/pending-transactions/jest.config.js",
             "tsConfig": "apps/pending-transactions/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "utils": {
+      "root": "libs/utils",
+      "sourceRoot": "libs/utils/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "libs/utils/.eslintrc",
+            "tsConfig": [
+              "libs/utils/tsconfig.lib.json",
+              "libs/utils/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/utils/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/utils/jest.config.js",
+            "tsConfig": "libs/utils/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
