@@ -1,4 +1,5 @@
 import { convertDate } from './upload-transactions';
+import { DateTime } from 'luxon';
 
 describe('upload-transactions', () => {
   describe('convertDate', () => {
@@ -8,8 +9,8 @@ describe('upload-transactions', () => {
 
     beforeEach(() => {
       jest
-        .spyOn(global.Date, 'constructor' as any)
-        .mockImplementationOnce(() => new Date(today));
+        .spyOn(DateTime, 'local')
+        .mockImplementationOnce(() => DateTime.fromISO(today + 'T08:00:00Z'));
     });
 
     it('does not change date if it == today', () => {
@@ -22,10 +23,9 @@ describe('upload-transactions', () => {
       expect(result).toBe(yesterday);
     });
 
-    // TODO: fix this!
-    // it('converts date to today if it is > today', () => {
-    //   const result = convertDate(tomorrow);
-    //   expect(result).toBe(today);
-    // });
+    it('converts date to today if it is > today', () => {
+      const result = convertDate(tomorrow);
+      expect(result).toBe(today);
+    });
   });
 });

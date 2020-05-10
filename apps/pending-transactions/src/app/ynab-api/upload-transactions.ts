@@ -2,6 +2,7 @@ import { API, Account, SaveTransaction } from 'ynab';
 import { TransactionsByAccount, Transaction } from '../shared';
 import { ynabErrorWrapper } from './ynab-error-wrapper';
 import { throwMultiple } from '../utils';
+import { DateTime } from 'luxon';
 
 export async function uploadTransactionsToYnab(ynab: API,
                                                transactions: TransactionsByAccount): Promise<void> {
@@ -82,7 +83,9 @@ async function uploadTransactionsToAccount(ynab: API,
  * @param date ISO date string (e.g. "2020-02-22")
  */
 export function convertDate(date: string): string {
-  const today: string = (new Date()).toISOString().split('T')[0];
+  const today = DateTime.local()
+    .setZone('America/Los_Angeles')
+    .toISODate();
   if (date > today) {
     return today;
   }
