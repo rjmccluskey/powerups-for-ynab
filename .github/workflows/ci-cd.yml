@@ -19,8 +19,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - run: npm ci
-    - run: npm run lint
-    - run: npm run build
-    - run: npm run test
+    - run: npm run affected:lint -- --all
+    - run: npm run affected:build -- --all --prod
+    - run: npm run affected:test -- --all
       env:
         NODE_ENV: CI
