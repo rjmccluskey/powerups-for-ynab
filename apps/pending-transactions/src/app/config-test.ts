@@ -1,5 +1,5 @@
 import { Config } from './config';
-import { NodeEnv } from './node-env';
+import { NodeEnv } from '@pfy/utils';
 
 export const config: Config = {
   ynabToken: 'YNAB_TOKEN',

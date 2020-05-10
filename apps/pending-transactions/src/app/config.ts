@@ -1,5 +1,4 @@
-import { NodeEnv } from './node-env';
-import { getEnvVar } from '@pfy/utils';
+import { getEnvVar, NodeEnv } from '@pfy/utils';
 
 export interface Config {
   ynabToken: string;
