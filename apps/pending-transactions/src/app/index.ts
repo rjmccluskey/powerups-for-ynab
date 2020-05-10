@@ -1,5 +1,6 @@
 import { API } from 'ynab';
-import { config, NodeEnv } from './config';
+import { config } from './config';
+import { NodeEnv } from './node-env';
 import { handledAsync, retryable } from './utils';
 import { uploadTransactionsToYnab } from './ynab-api';
 import { getPendingTransactions } from './plaid-api';

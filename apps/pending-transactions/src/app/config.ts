@@ -1,3 +1,5 @@
+import { NodeEnv } from './node-env';
+
 function getEnvVar(name: string): string
 function getEnvVar(name: string, fallback: string): string
 function getEnvVar(name: string, fallback: null): string|null
@@ -7,12 +9,6 @@ function getEnvVar(name: string, fallback: string|null|undefined = undefined): s
     throw new Error(`Missing env variable ${name}`);
   }
   return value;
-}
-
-export enum NodeEnv {
-  dev = 'development',
-  prod = 'production',
-  ci = 'CI'
 }
 
 export interface Config {

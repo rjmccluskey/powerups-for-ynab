@@ -1,4 +1,5 @@
-import { config, NodeEnv } from '../config';
+import { config } from '../config';
+import { NodeEnv } from '../node-env';
 import { Readable } from 'stream';
 import { Storage } from '@google-cloud/storage';
 
