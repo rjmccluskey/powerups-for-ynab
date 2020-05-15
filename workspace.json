@@ -85,6 +85,34 @@
           }
         }
       }
+    },
+    "file-storage": {
+      "root": "libs/file-storage",
+      "sourceRoot": "libs/file-storage/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "libs/file-storage/.eslintrc",
+            "tsConfig": [
+              "libs/file-storage/tsconfig.lib.json",
+              "libs/file-storage/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/file-storage/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/file-storage/jest.config.js",
+            "tsConfig": "libs/file-storage/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

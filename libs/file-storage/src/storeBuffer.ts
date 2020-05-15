@@ -1,14 +1,8 @@
-import { config } from '../config';
-import { NodeEnv } from '@pfy/utils';
 import { Readable } from 'stream';
 import { Storage } from '@google-cloud/storage';
 
 export async function storeBuffer(buffer: Buffer, bucketName: string,
  filename: string): Promise<void> {
-  if (config.nodeEnv !== NodeEnv.prod) {
-    return Promise.resolve();
-  }
-
   const storage = new Storage();
   const bucket = storage.bucket(bucketName);
   const file = bucket.file(filename);
