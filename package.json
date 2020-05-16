@@ -33,10 +33,10 @@
     "ynab": "^1.19.0"
   },
   "devDependencies": {
-    "@nrwl/eslint-plugin-nx": "9.2.3",
-    "@nrwl/jest": "9.2.3",
-    "@nrwl/node": "9.2.3",
-    "@nrwl/workspace": "9.2.3",
+    "@nrwl/eslint-plugin-nx": "9.3.0",
+    "@nrwl/jest": "9.3.0",
+    "@nrwl/node": "9.3.0",
+    "@nrwl/workspace": "9.3.0",
     "@types/jest": "25.1.4",
     "@types/luxon": "^1.22.0",
     "@types/node": "~8.9.4",
@@ -46,7 +46,7 @@
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.0.0",
     "jest": "25.2.3",
-    "prettier": "1.19.1",
+    "prettier": "2.0.4",
     "ts-jest": "25.2.1",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
