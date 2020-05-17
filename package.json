@@ -30,11 +30,17 @@
     "@google-cloud/storage": "^4.7.0",
     "luxon": "^1.24.1",
     "plaid": "^4.11.0",
-    "ynab": "^1.19.0"
+    "ynab": "^1.19.0",
+    "document-register-element": "1.13.1",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "next": "9.3.3",
+    "styled-components": "5.0.1"
   },
   "devDependencies": {
     "@nrwl/eslint-plugin-nx": "9.3.0",
     "@nrwl/jest": "9.3.0",
+    "@nrwl/next": "9.3.0",
     "@nrwl/node": "9.3.0",
     "@nrwl/workspace": "9.3.0",
     "@types/jest": "25.1.4",
@@ -50,6 +56,15 @@
     "ts-jest": "25.2.1",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
-    "typescript": "~3.8.3"
+    "typescript": "~3.8.3",
+    "cypress": "^4.1.0",
+    "@nrwl/cypress": "9.3.0",
+    "@nrwl/web": "9.3.0",
+    "@nrwl/react": "9.3.0",
+    "@types/react": "16.9.17",
+    "@types/react-dom": "16.9.4",
+    "@testing-library/react": "9.4.0",
+    "@types/styled-components": "5.0.1",
+    "babel-plugin-styled-components": "1.10.7"
   }
 }

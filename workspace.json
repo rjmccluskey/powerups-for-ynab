@@ -131,7 +131,8 @@
     },
     "@nrwl/react": {
       "application": {
-        "linter": "eslint"
+        "linter": "eslint",
+        "babel": true
       },
       "library": {
         "linter": "eslint"
@@ -139,6 +140,7 @@
     },
     "@nrwl/next": {
       "application": {
+        "style": "styled-components",
         "linter": "eslint"
       }
     },
