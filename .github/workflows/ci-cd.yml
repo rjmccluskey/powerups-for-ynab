@@ -18,6 +18,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+
     - run: npm ci
     - run: npm run affected:lint -- --all
     - run: npm run affected:build -- --all --prod
