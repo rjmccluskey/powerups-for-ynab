@@ -7,6 +7,7 @@ import { getPendingTransactions } from './plaid-api';
 const ynab = new API(config.ynabToken);
 
 // temp
+// temp
 
 let findAndUploadTransactions = handledAsync(async () => {
     const transactions = await getPendingTransactions();
