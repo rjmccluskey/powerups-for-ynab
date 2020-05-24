@@ -26,8 +26,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - run: npm ci
-    - run: npm run affected:lint -- --base=${{ github.event.before }} --head=HEAD
-    - run: npm run affected:build -- --prod --base=${{ github.event.before }} --head=HEAD
-    - run: npm run affected:test -- --base=${{ github.event.before }} --head=HEAD
+    - run: npm run affected:lint -- --parallel --base=${{ github.event.before }} --head=HEAD
+    - run: npm run affected:build -- --parallel --prod --base=${{ github.event.before }} --head=HEAD
+    - run: npm run affected:test -- --parallel --base=${{ github.event.before }} --head=HEAD
       env:
         NODE_ENV: CI
