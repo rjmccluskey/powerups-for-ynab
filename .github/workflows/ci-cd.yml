@@ -18,11 +18,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - run: git fetch --no-tags --prune --depth=5 origin master
-    - run: git merge master
     - run: npm ci
-    - run: npm run affected:lint -- --base=${{ github.event.before }} --head=${{ github.event.after }}
-    - run: npm run affected:build -- --prod --base=${{ github.event.before }} --head=${{ github.event.after }}
-    - run: npm run affected:test -- --base=${{ github.event.before }} --head=${{ github.event.after }}
+    - run: npm run affected:lint -- --base=${{ github.event.before }} --head=HEAD
+    - run: npm run affected:build -- --prod --base=${{ github.event.before }} --head=HEAD
+    - run: npm run affected:test -- --base=${{ github.event.before }} --head=HEAD
       env:
         NODE_ENV: CI
