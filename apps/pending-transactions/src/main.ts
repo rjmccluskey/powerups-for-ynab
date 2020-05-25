@@ -1,3 +1,7 @@
 import { main } from './app';
 
-main();
+if (process.env.NODE_ENV === 'development') {
+  main();
+}
+
+export { main };
