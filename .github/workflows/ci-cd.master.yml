@@ -44,4 +44,4 @@ jobs:
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
-    - run: gcloud info
+    - run: npm run affected -- --target=deploy

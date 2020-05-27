@@ -55,6 +55,14 @@
             "tsConfig": "apps/pending-transactions/tsconfig.spec.json",
             "passWithNoTests": true
           }
+        },
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [{ 
+              "command": "node apps/pending-transactions/deploy.js"
+            }]
+          }
         }
       }
     },
