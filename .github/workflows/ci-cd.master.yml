@@ -38,3 +38,10 @@ jobs:
     - run: npm run affected:test -- --parallel --base=${{ github.event.before }} --head=HEAD
       env:
         NODE_ENV: CI
+
+    - name: Setup glcoud
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+    - run: gcloud info
