@@ -11,10 +11,9 @@ const simplePackageJson = {
   dependencies: packageJson.dependencies
 };
 
-const jsonString = JSON.stringify(simplePackageJson);
 fs.writeFileSync(
   'dist/apps/pending-transactions/package.json',
-  jsonString
+  JSON.stringify(simplePackageJson)
 );
 
 const gcloudCommand = `

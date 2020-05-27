@@ -44,4 +44,4 @@ jobs:
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
-    - run: npm run affected -- --target=deploy
+    - run: npm run affected -- --target=deploy --parallel --base=${{ github.event.before }} --head=HEAD
