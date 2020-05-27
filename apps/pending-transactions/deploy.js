@@ -18,6 +18,7 @@ fs.writeFileSync(
 
 const gcloudCommand = `
 gcloud functions deploy pending-transactions \\
+  --region=us-east1 \\
   --entry-point=main \\
   --source=dist/apps/pending-transactions/ \\
   > /dev/null
