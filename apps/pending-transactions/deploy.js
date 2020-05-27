@@ -6,6 +6,7 @@ const packageJson = require('../../package.json');
 const simplePackageJson = {
   name: 'pending-transactions',
   version: '0.0.0',
+  main: 'main.js',
   // Just copy all dependencies for now. Eventually this should be smarter
   // so it only uses dependencies needed for the app
   dependencies: packageJson.dependencies
