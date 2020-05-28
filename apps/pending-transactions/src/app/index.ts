@@ -7,9 +7,9 @@ import { getPendingTransactions } from './plaid-api';
 const ynab = new API(config.ynabToken);
 
 let findAndUploadTransactions = handledAsync(async () => {
-    const transactions = await getPendingTransactions();
-    await uploadTransactionsToYnab(ynab, transactions);
-    return 'success';
+  const transactions = await getPendingTransactions();
+  await uploadTransactionsToYnab(ynab, transactions);
+  return 'success';
 }, async e => {
   // Add things here to do before the error kills the script
   throw e;
