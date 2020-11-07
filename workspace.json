@@ -37,31 +37,30 @@
           }
         },
         "lint": {
-          "builder": "@nrwl/linter:lint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "linter": "eslint",
-            "config": "apps/pending-transactions/.eslintrc",
-            "tsConfig": [
-              "apps/pending-transactions/tsconfig.app.json",
-              "apps/pending-transactions/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/pending-transactions/**"]
+            "lintFilePatterns": [
+              "apps/pending-transactions/**/*.ts",
+              "apps/pending-transactions/**/*.spec.ts",
+              "apps/pending-transactions/**/*.d.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/pending-transactions/jest.config.js",
-            "tsConfig": "apps/pending-transactions/tsconfig.spec.json",
             "passWithNoTests": true
           }
         },
         "deploy": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "commands": [{ 
-              "command": "node apps/pending-transactions/deploy.js"
-            }]
+            "commands": [
+              {
+                "command": "node apps/pending-transactions/deploy.js"
+              }
+            ]
           }
         }
       }
@@ -73,22 +72,22 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@nrwl/linter:lint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "linter": "eslint",
-            "config": "libs/utils/.eslintrc",
-            "tsConfig": [
-              "libs/utils/tsconfig.lib.json",
-              "libs/utils/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/utils/**"]
+            "lintFilePatterns": [
+              "libs/utils/**/*.ts",
+              "libs/utils/**/*.spec.ts",
+              "libs/utils/**/*.spec.tsx",
+              "libs/utils/**/*.spec.js",
+              "libs/utils/**/*.spec.jsx",
+              "libs/utils/**/*.d.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/utils/jest.config.js",
-            "tsConfig": "libs/utils/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
@@ -101,22 +100,22 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@nrwl/linter:lint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "linter": "eslint",
-            "config": "libs/file-storage/.eslintrc",
-            "tsConfig": [
-              "libs/file-storage/tsconfig.lib.json",
-              "libs/file-storage/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/file-storage/**"]
+            "lintFilePatterns": [
+              "libs/file-storage/**/*.ts",
+              "libs/file-storage/**/*.spec.ts",
+              "libs/file-storage/**/*.spec.tsx",
+              "libs/file-storage/**/*.spec.js",
+              "libs/file-storage/**/*.spec.jsx",
+              "libs/file-storage/**/*.d.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/file-storage/jest.config.js",
-            "tsConfig": "libs/file-storage/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
