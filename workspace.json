@@ -120,6 +120,56 @@
           }
         }
       }
+    },
+    "track-by-balance": {
+      "root": "apps/track-by-balance",
+      "sourceRoot": "apps/track-by-balance/src",
+      "projectType": "application",
+      "prefix": "track-by-balance",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/track-by-balance",
+            "main": "apps/track-by-balance/src/main.ts",
+            "tsConfig": "apps/track-by-balance/tsconfig.app.json",
+            "assets": ["apps/track-by-balance/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/track-by-balance/src/environments/environment.ts",
+                  "with": "apps/track-by-balance/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "track-by-balance:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/track-by-balance/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/track-by-balance/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
