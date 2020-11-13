@@ -1,7 +1,6 @@
 import { getEnvVar, NodeEnv } from '@pfy/utils';
 
 export interface Config {
-  ynabToken: string;
   nodeEnv: NodeEnv;
   useTracing: boolean;
   debugBucketName: string|null;
@@ -12,7 +11,6 @@ export interface Config {
 }
 
 export const config: Config = {
-  ynabToken: getEnvVar('YNAB_TOKEN'),
   nodeEnv: getEnvVar('NODE_ENV', NodeEnv.prod) as NodeEnv,
   useTracing: getEnvVar('USE_TRACING', 'false') === 'true',
   debugBucketName: getEnvVar('DEBUG_BUCKET_NAME', null),

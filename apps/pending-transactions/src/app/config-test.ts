@@ -2,7 +2,6 @@ import { Config } from './config';
 import { NodeEnv } from '@pfy/utils';
 
 export const config: Config = {
-  ynabToken: 'YNAB_TOKEN',
   nodeEnv: NodeEnv.test,
   useTracing: false,
   debugBucketName: null,
