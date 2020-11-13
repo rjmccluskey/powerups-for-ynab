@@ -1,6 +1,6 @@
 import { API, Account, SaveTransaction } from 'ynab';
 import { TransactionsByAccount, Transaction } from '../shared';
-import { ynabErrorWrapper } from '@pfy/ynab-utils';
+import { ynabErrorWrapper, mapEveryAccount } from '@pfy/ynab-utils';
 import { throwMultiple } from '@pfy/utils';
 import { DateTime } from 'luxon';
 
@@ -8,46 +8,24 @@ export async function uploadTransactionsToYnab(
   ynab: API,
   transactions: TransactionsByAccount
 ): Promise<void> {
-  const accountsByBudget = await getAccountsByBudgetId(ynab);
-
-  for (const budgetId in accountsByBudget) {
-    const accounts = accountsByBudget[budgetId];
-    const results: Array<Error | null> = await Promise.all(
-      accounts.map(async (account) => {
-        const pendingTransactions = transactions[account.note];
-        const error = await uploadTransactionsToAccount(
-          ynab,
-          budgetId,
-          account,
-          pendingTransactions
-        ).catch((e) => e);
-        return error || null;
-      })
-    );
-
-    const errors: Error[] = results.filter((result) => result !== null);
-    if (errors.length > 0) {
-      throwMultiple(errors);
+  const results: Array<Error | null> = await mapEveryAccount(
+    ynab,
+    async (account, budget) => {
+      const pendingTransactions = transactions[account.note];
+      const error = await uploadTransactionsToAccount(
+        ynab,
+        budget.id,
+        account,
+        pendingTransactions
+      ).catch((e) => e);
+      return error || null;
     }
-  }
-}
+  );
 
-interface AccountsByBudgetId {
-  [budgetId: string]: Account[];
-}
-async function getAccountsByBudgetId(ynab: API): Promise<AccountsByBudgetId> {
-  const accountsByBudget: AccountsByBudgetId = {};
-  const budgetsResponse = await ynab.budgets
-    .getBudgets()
-    .catch(ynabErrorWrapper);
-  for (const budget of budgetsResponse.data.budgets) {
-    const accountsResponse = await ynab.accounts
-      .getAccounts(budget.id)
-      .catch(ynabErrorWrapper);
-    accountsByBudget[budget.id] = accountsResponse.data.accounts;
+  const errors: Error[] = results.filter((result) => result !== null);
+  if (errors.length > 0) {
+    throwMultiple(errors);
   }
-
-  return accountsByBudget;
 }
 
 async function uploadTransactionsToAccount(
