@@ -1,1 +1,1 @@
-export * from './lib/ynab-utils';
+export * from './lib/ynab-api';

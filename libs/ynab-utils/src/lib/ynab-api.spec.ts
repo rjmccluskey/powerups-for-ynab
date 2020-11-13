@@ -1,5 +1,5 @@
 import { API } from 'ynab';
-import { ynabApi } from './ynab-utils';
+import { ynabApi } from './ynab-api';
 
 describe('ynab-utils', () => {
   const originalEnv = process.env;
