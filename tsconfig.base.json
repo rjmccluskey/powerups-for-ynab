@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@pfy/utils": ["libs/utils/src/index.ts"],
-      "@pfy/file-storage": ["libs/file-storage/src/index.ts"]
+      "@pfy/file-storage": ["libs/file-storage/src/index.ts"],
+      "@pfy/ynab-utils": ["libs/ynab-utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

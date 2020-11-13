@@ -4,5 +4,6 @@ module.exports = {
     '<rootDir>/libs/utils',
     '<rootDir>/libs/file-storage',
     '<rootDir>/apps/track-by-balance',
+    '<rootDir>/libs/ynab-utils',
   ],
 };
