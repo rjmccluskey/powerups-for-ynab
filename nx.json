@@ -34,6 +34,9 @@
     },
     "ynab-utils": {
       "tags": []
+    },
+    "plaid-link-sandbox": {
+      "tags": []
     }
   },
   "affected": {

@@ -191,6 +191,56 @@
           }
         }
       }
+    },
+    "plaid-link-sandbox": {
+      "root": "apps/plaid-link-sandbox",
+      "sourceRoot": "apps/plaid-link-sandbox",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/next:build",
+          "options": {
+            "root": "apps/plaid-link-sandbox",
+            "outputPath": "dist/apps/plaid-link-sandbox"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "plaid-link-sandbox:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "plaid-link-sandbox:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "builder": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "plaid-link-sandbox:build:production"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/plaid-link-sandbox/**/*.{ts,tsx}"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/plaid-link-sandbox/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

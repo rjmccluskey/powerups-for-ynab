@@ -5,5 +5,6 @@ module.exports = {
     '<rootDir>/libs/file-storage',
     '<rootDir>/apps/track-by-balance',
     '<rootDir>/libs/ynab-utils',
+    '<rootDir>/apps/plaid-link-sandbox',
   ],
 };
