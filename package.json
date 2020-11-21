@@ -31,7 +31,7 @@
     "document-register-element": "1.13.1",
     "luxon": "^1.24.1",
     "next": "9.5.2",
-    "plaid": "^4.11.0",
+    "plaid": "^8.1.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-is": "16.13.1",

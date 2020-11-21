@@ -37,6 +37,9 @@
     },
     "plaid-link-sandbox": {
       "tags": []
+    },
+    "plaid-utils": {
+      "tags": []
     }
   },
   "affected": {
