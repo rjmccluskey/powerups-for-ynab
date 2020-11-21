@@ -168,6 +168,16 @@
             "jestConfig": "apps/track-by-balance/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "node apps/track-by-balance/deploy.js"
+              }
+            ]
+          }
         }
       }
     },
