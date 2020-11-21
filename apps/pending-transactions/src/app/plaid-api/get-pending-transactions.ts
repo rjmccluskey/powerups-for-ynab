@@ -1,13 +1,13 @@
-import { plaidClient } from './client';
-import { config } from '../config';
-import { TransactionsByAccount, Transaction } from '../shared';
 import * as plaid from 'plaid';
 import { DateTime } from 'luxon';
+import { plaidClient } from '@pfy/plaid-utils';
+import { config } from '../config';
+import { TransactionsByAccount, Transaction } from '../shared';
 
 export async function getPendingTransactions(): Promise<TransactionsByAccount> {
   console.log('Searching for pending transactions from bank...');
 
-  const plaidTransactions = await plaidClient.getAllTransactions(
+  const plaidTransactions = await plaidClient().getAllTransactions(
     config.plaidAccessToken,
     getStartDate(),
     getEndDate()
