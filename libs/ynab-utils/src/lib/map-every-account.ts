@@ -1,5 +1,5 @@
 import { Account, API, BudgetSummary } from 'ynab';
-import { ynabErrorWrapper } from '@pfy/ynab-utils';
+import { ynabErrorWrapper } from './ynab-error-wrapper';
 
 export async function mapEveryAccount<T>(
   ynab: API,

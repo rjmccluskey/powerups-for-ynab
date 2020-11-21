@@ -14,7 +14,7 @@ describe('ynab-utils', () => {
     });
 
     it('returns instance of API with valid token', () => {
-      process.env.YNAB_TOKEN = 'abc123';
+      process.env.NX_YNAB_TOKEN = 'abc123';
       expect(ynabApi()).toBeInstanceOf(API);
     });
   });
