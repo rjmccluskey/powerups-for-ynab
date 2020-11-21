@@ -1,61 +1,54 @@
 import { API, Account, SaveTransaction } from 'ynab';
+import { ynabErrorWrapper, mapEveryAccount } from '@pfy/ynab-utils';
+import { throwMultiple, now } from '@pfy/utils';
 import { TransactionsByAccount, Transaction } from '../shared';
-import { ynabErrorWrapper } from './ynab-error-wrapper';
-import { throwMultiple } from '@pfy/utils';
-import { DateTime } from 'luxon';
 
-export async function uploadTransactionsToYnab(ynab: API,
-                                               transactions: TransactionsByAccount): Promise<void> {
-  const accountsByBudget = await getAccountsByBudgetId(ynab);
-
-  for (const budgetId in accountsByBudget) {
-    const accounts = accountsByBudget[budgetId];
-    const results: Array<Error|null> = await Promise.all(accounts.map(async account => {
+export async function uploadTransactionsToYnab(
+  ynab: API,
+  transactions: TransactionsByAccount
+): Promise<void> {
+  const results: Array<Error | null> = await mapEveryAccount(
+    ynab,
+    async (account, budget) => {
       const pendingTransactions = transactions[account.note];
-      const error = await uploadTransactionsToAccount(ynab, budgetId, account, pendingTransactions)
-        .catch(e => e);
+      const error = await uploadTransactionsToAccount(
+        ynab,
+        budget.id,
+        account,
+        pendingTransactions
+      ).catch((e) => e);
       return error || null;
-    }));
-
-    const errors: Error[] = results.filter(result => result !== null);
-    if (errors.length > 0) {
-      throwMultiple(errors);
     }
+  );
+
+  const errors: Error[] = results.filter((result) => result !== null);
+  if (errors.length > 0) {
+    throwMultiple(errors);
   }
 }
 
-interface AccountsByBudgetId {
-  [budgetId: string]: Account[];
-}
-async function getAccountsByBudgetId(ynab: API): Promise<AccountsByBudgetId> {
-  const accountsByBudget: AccountsByBudgetId = {};
-  const budgetsResponse = await ynab.budgets.getBudgets().catch(ynabErrorWrapper);
-  for (const budget of budgetsResponse.data.budgets) {
-    const accountsResponse = await ynab.accounts.getAccounts(budget.id).catch(ynabErrorWrapper);
-    accountsByBudget[budget.id] = accountsResponse.data.accounts;
-  }
-
-  return accountsByBudget;
-}
-
-async function uploadTransactionsToAccount(ynab: API,
-                                           budgetId: string,
-                                           account: Account,
-                                           pendingTransactions: Transaction[]): Promise<void> {
+async function uploadTransactionsToAccount(
+  ynab: API,
+  budgetId: string,
+  account: Account,
+  pendingTransactions: Transaction[]
+): Promise<void> {
   if (pendingTransactions && pendingTransactions.length > 0) {
     const sinceDate = new Date();
     sinceDate.setDate(sinceDate.getDate() - 10); // 10 days ago
-    const ynabTransactionsResponse = await ynab
-      .transactions
+    const ynabTransactionsResponse = await ynab.transactions
       .getTransactionsByAccount(budgetId, account.id, sinceDate)
       .catch(ynabErrorWrapper);
-    const ynabTransactions = ynabTransactionsResponse.data.transactions.filter(transaction =>
-      transaction.cleared === SaveTransaction.ClearedEnum.Uncleared);
+    const ynabTransactions = ynabTransactionsResponse.data.transactions.filter(
+      (transaction) =>
+        transaction.cleared === SaveTransaction.ClearedEnum.Uncleared
+    );
 
     const newTransactions: SaveTransaction[] = [];
     for (const pendingTransaction of pendingTransactions) {
-      const existingTransaction = ynabTransactions.find(ynabTransaction =>
-        pendingTransaction.matchesId(ynabTransaction.memo));
+      const existingTransaction = ynabTransactions.find((ynabTransaction) =>
+        pendingTransaction.matchesId(ynabTransaction.memo)
+      );
       // Only upload new charges (negative amounts)
       if (!existingTransaction && pendingTransaction.amount < 0) {
         const date = convertDate(pendingTransaction.date);
@@ -65,16 +58,20 @@ async function uploadTransactionsToAccount(ynab: API,
           amount: pendingTransaction.amount,
           payee_name: pendingTransaction.description,
           cleared: SaveTransaction.ClearedEnum.Uncleared,
-          memo: pendingTransaction.getId()
+          memo: pendingTransaction.getId(),
         });
       }
     }
 
-    console.log(`Uploading ${newTransactions.length} new transactions from ${account.note}`);
+    console.log(
+      `Uploading ${newTransactions.length} new transactions from ${account.note}`
+    );
     if (newTransactions.length > 0) {
-      await ynab.transactions.createTransactions(budgetId, {
-        transactions: newTransactions
-      }).catch(ynabErrorWrapper);
+      await ynab.transactions
+        .createTransactions(budgetId, {
+          transactions: newTransactions,
+        })
+        .catch(ynabErrorWrapper);
     }
   }
 }
@@ -83,11 +80,9 @@ async function uploadTransactionsToAccount(ynab: API,
  * @param date ISO date string (e.g. "2020-02-22")
  */
 export function convertDate(date: string): string {
-  const today = DateTime.local()
-    .setZone('America/Los_Angeles')
-    .toISODate();
-  if (date > today) {
-    return today;
+  const todayDateString = now().toISODate();
+  if (date > todayDateString) {
+    return todayDateString;
   }
   return date;
 }

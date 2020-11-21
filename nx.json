@@ -28,6 +28,18 @@
     },
     "file-storage": {
       "tags": []
+    },
+    "track-by-balance": {
+      "tags": []
+    },
+    "ynab-utils": {
+      "tags": []
+    },
+    "plaid-link-sandbox": {
+      "tags": []
+    },
+    "plaid-utils": {
+      "tags": []
     }
   },
   "affected": {
