@@ -1,8 +1,7 @@
 import { API, Account, SaveTransaction } from 'ynab';
-import { TransactionsByAccount, Transaction } from '../shared';
 import { ynabErrorWrapper, mapEveryAccount } from '@pfy/ynab-utils';
-import { throwMultiple } from '@pfy/utils';
-import { DateTime } from 'luxon';
+import { throwMultiple, now } from '@pfy/utils';
+import { TransactionsByAccount, Transaction } from '../shared';
 
 export async function uploadTransactionsToYnab(
   ynab: API,
@@ -81,9 +80,9 @@ async function uploadTransactionsToAccount(
  * @param date ISO date string (e.g. "2020-02-22")
  */
 export function convertDate(date: string): string {
-  const today = DateTime.local().setZone('America/Los_Angeles').toISODate();
-  if (date > today) {
-    return today;
+  const todayDateString = now().toISODate();
+  if (date > todayDateString) {
+    return todayDateString;
   }
   return date;
 }

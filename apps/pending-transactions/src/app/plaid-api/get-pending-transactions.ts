@@ -1,7 +1,6 @@
 import * as plaid from 'plaid';
-import { DateTime } from 'luxon';
 import { plaidClient } from '@pfy/plaid-utils';
-import { floatToMilliunits } from '@pfy/utils';
+import { floatToMilliunits, now } from '@pfy/utils';
 import { config } from '../config';
 import { TransactionsByAccount, Transaction } from '../shared';
 
@@ -82,15 +81,13 @@ function notATransfer(plaidTransaction: plaid.Transaction): boolean {
 }
 
 function getEndDate(): string {
-  return DateTime.local()
-    .setZone('America/Los_Angeles')
+  return now()
     .plus({ days: 2 })
     .toISODate();
 }
 
 function getStartDate(): string {
-  return DateTime.local()
-    .setZone('America/Los_Angeles')
+  return now()
     .minus({ days: 10 })
     .toISODate();
 }

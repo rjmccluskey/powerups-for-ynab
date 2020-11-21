@@ -1,7 +1,6 @@
 import { mapEveryAccount, ynabApi, ynabErrorWrapper } from '@pfy/ynab-utils';
 import { plaidClient } from '@pfy/plaid-utils';
-import { floatToMilliunits, getEnvVar } from '@pfy/utils';
-import { DateTime } from 'luxon';
+import { floatToMilliunits, getEnvVar, now } from '@pfy/utils';
 import { SaveTransaction } from 'ynab';
 
 export const main = async () => {
@@ -28,7 +27,7 @@ export const main = async () => {
           .createTransaction(budget.id, {
             transaction: {
               account_id: account.id,
-              date: DateTime.local().setZone('America/Los_Angeles').toISODate(),
+              date: now().toISODate(),
               amount: difference,
               payee_name: 'Automatic balance adjustment',
               memo: 'Sent from Powerups for YNAB',
