@@ -1,6 +1,7 @@
 import * as plaid from 'plaid';
 import { DateTime } from 'luxon';
 import { plaidClient } from '@pfy/plaid-utils';
+import { floatToMilliunits } from '@pfy/utils';
 import { config } from '../config';
 import { TransactionsByAccount, Transaction } from '../shared';
 
@@ -13,7 +14,7 @@ export async function getPendingTransactions(): Promise<TransactionsByAccount> {
     getEndDate()
   );
   const transactionsByAccount = plaidTransactions.transactions
-    .filter(transaction => transaction.pending)
+    .filter((transaction) => transaction.pending)
     .filter(amountIsValid)
     .filter(notATransfer)
     .reduce(transactionsByAccountReducer(plaidTransactions.accounts), {});
@@ -24,23 +25,30 @@ export async function getPendingTransactions(): Promise<TransactionsByAccount> {
   return transactionsByAccount;
 }
 
-function transactionsByAccountReducer(accounts: plaid.Account[]):
-                                       (
-                                         byAccount: TransactionsByAccount,
-                                         plaidTransaction: plaid.Transaction
-                                       ) => TransactionsByAccount {
+function transactionsByAccountReducer(
+  accounts: plaid.Account[]
+): (
+  byAccount: TransactionsByAccount,
+  plaidTransaction: plaid.Transaction
+) => TransactionsByAccount {
   return (byAccount, plaidTransaction) => {
-    const accountName = getAccountNameById(accounts, plaidTransaction.account_id);
+    const accountName = getAccountNameById(
+      accounts,
+      plaidTransaction.account_id
+    );
     const currentTransactions = byAccount[accountName] || [];
     byAccount[accountName] = [
       ...currentTransactions,
-      mapPlaidToTransaction(plaidTransaction)
+      mapPlaidToTransaction(plaidTransaction),
     ];
     return byAccount;
   };
 }
 
-function getAccountNameById(accounts: plaid.Account[], accountId: string): string {
+function getAccountNameById(
+  accounts: plaid.Account[],
+  accountId: string
+): string {
   for (const account of accounts) {
     if (account.account_id === accountId && account.name) {
       return account.name;
@@ -49,17 +57,15 @@ function getAccountNameById(accounts: plaid.Account[], accountId: string): strin
   throw new Error(`Could not find account name for accountId: ${accountId}`);
 }
 
-function mapPlaidToTransaction(plaidTransaction: plaid.Transaction): Transaction {
+function mapPlaidToTransaction(
+  plaidTransaction: plaid.Transaction
+): Transaction {
   return new Transaction(
-    getMilliunitAmount(plaidTransaction.amount as number),
+    // Charge transactions from plaid come in with positive amounts so multiple by -1
+    floatToMilliunits(plaidTransaction.amount) * -1,
     plaidTransaction.date,
     plaidTransaction.name || 'unknown'
   );
-}
-
-export function getMilliunitAmount(floatAmount: number): number {
-  const milliunitAmount = floatAmount * 1000;
-  return Math.round(milliunitAmount) * -1;
 }
 
 function amountIsValid(plaidTransaction: plaid.Transaction): boolean {
@@ -70,19 +76,21 @@ function notATransfer(plaidTransaction: plaid.Transaction): boolean {
   if (!plaidTransaction.name) {
     return true;
   }
-  plaidTransaction.transaction_type
+  plaidTransaction.transaction_type;
   const match = plaidTransaction.name.match(/transfer/i);
   return match === null;
 }
 
 function getEndDate(): string {
-  return DateTime.local().setZone('America/Los_Angeles')
-    .plus({ days: 2})
+  return DateTime.local()
+    .setZone('America/Los_Angeles')
+    .plus({ days: 2 })
     .toISODate();
 }
 
 function getStartDate(): string {
-  return DateTime.local().setZone('America/Los_Angeles')
-    .minus({ days: 10})
+  return DateTime.local()
+    .setZone('America/Los_Angeles')
+    .minus({ days: 10 })
     .toISODate();
 }

@@ -1,6 +1,6 @@
 import { mapEveryAccount, ynabApi, ynabErrorWrapper } from '@pfy/ynab-utils';
 import { plaidClient } from '@pfy/plaid-utils';
-import { getEnvVar } from '@pfy/utils';
+import { floatToMilliunits, getEnvVar } from '@pfy/utils';
 import { DateTime } from 'luxon';
 import { SaveTransaction } from 'ynab';
 
@@ -13,7 +13,7 @@ export const main = async () => {
     const accountNameToBalance: {
       [name: string]: number;
     } = accountsResponse.accounts.reduce((all, account) => {
-      all[account.name] = Math.round(account.balances.current * 1000);
+      all[account.name] = floatToMilliunits(account.balances.current);
       return all;
     }, {});
     await mapEveryAccount(ynab, async (account, budget) => {
