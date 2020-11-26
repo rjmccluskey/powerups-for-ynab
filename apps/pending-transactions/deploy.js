@@ -1,6 +1,6 @@
 'use strict';
 const fs = require('fs');
-const { exec } = require("child_process");
+const { exec } = require('child_process');
 const packageJson = require('../../package.json');
 
 const simplePackageJson = {
@@ -9,7 +9,7 @@ const simplePackageJson = {
   main: 'main.js',
   // Just copy all dependencies for now. Eventually this should be smarter
   // so it only uses dependencies needed for the app
-  dependencies: packageJson.dependencies
+  dependencies: packageJson.dependencies,
 };
 
 fs.writeFileSync(

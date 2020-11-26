@@ -7,7 +7,7 @@ describe('async-utils', () => {
       const onError = jest.fn().mockReturnValue('from onError');
       const handledFunc = handledAsync(func, onError);
       const result = await handledFunc();
-      
+
       expect(func).toHaveBeenCalled();
       expect(onError).not.toHaveBeenCalled();
       expect(result).toBe('from func');
@@ -36,7 +36,8 @@ describe('async-utils', () => {
     });
 
     it('calls function twice with error on first try', async () => {
-      const func = jest.fn()
+      const func = jest
+        .fn()
         .mockRejectedValueOnce(new Error())
         .mockResolvedValueOnce('from func');
       const retryableFunc = retryable(func);
@@ -47,7 +48,8 @@ describe('async-utils', () => {
     });
 
     it('rejects with error on second try', async () => {
-      const func = jest.fn()
+      const func = jest
+        .fn()
         .mockRejectedValueOnce(new Error('first error'))
         .mockRejectedValueOnce(new Error('second error'));
       const retryableFunc = retryable(func);

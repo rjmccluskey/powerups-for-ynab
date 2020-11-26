@@ -1,8 +1,10 @@
-export function handledAsync<T>(func: () => Promise<T>,
-                                onError: (e: Error) => Promise<T>): () => Promise<T> {
+export function handledAsync<T>(
+  func: () => Promise<T>,
+  onError: (e: Error) => Promise<T>
+): () => Promise<T> {
   return async () => {
     return func().catch(onError);
-  }
+  };
 }
 
 export function retryable<T>(func: () => Promise<T>): () => Promise<T> {
@@ -14,5 +16,5 @@ export function retryable<T>(func: () => Promise<T>): () => Promise<T> {
       console.log('Retrying...');
       return func();
     }
-  }
+  };
 }

@@ -4,9 +4,9 @@ export function throwMultiple(errors: Error[]): void {
   }
 
   const message = errors.reduce((combinedErrorString, error) => {
-    combinedErrorString += error.stack + "\n\n";
+    combinedErrorString += error.stack + '\n\n';
     return combinedErrorString;
-  }, "One or more errors occurred:\n\n");
+  }, 'One or more errors occurred:\n\n');
 
   throw new Error(message);
 }

@@ -81,13 +81,9 @@ function notATransfer(plaidTransaction: plaid.Transaction): boolean {
 }
 
 function getEndDate(): string {
-  return now()
-    .plus({ days: 2 })
-    .toISODate();
+  return now().plus({ days: 2 }).toISODate();
 }
 
 function getStartDate(): string {
-  return now()
-    .minus({ days: 10 })
-    .toISODate();
+  return now().minus({ days: 10 }).toISODate();
 }

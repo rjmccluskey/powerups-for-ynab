@@ -3,7 +3,7 @@ import { getEnvVar, NodeEnv } from '@pfy/utils';
 export interface Config {
   nodeEnv: NodeEnv;
   useTracing: boolean;
-  debugBucketName: string|null;
+  debugBucketName: string | null;
   plaidAccessToken: string;
 }
 

@@ -7,7 +7,7 @@ export class Transaction {
   readonly date: string;
   readonly description: string;
 
-  private static idWrapper = '|'
+  private static idWrapper = '|';
 
   constructor(amount: number, date: string, description: string) {
     this.amount = amount;
@@ -22,7 +22,7 @@ export class Transaction {
     return `${wrapper}integration-id:${id}${wrapper}`;
   }
 
-  matchesId(stringContainingId: string|null|undefined): boolean {
+  matchesId(stringContainingId: string | null | undefined): boolean {
     if (!isString(stringContainingId)) {
       return false;
     }

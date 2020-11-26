@@ -1,8 +1,11 @@
 import { Readable } from 'stream';
 import { Storage } from '@google-cloud/storage';
 
-export async function storeBuffer(buffer: Buffer, bucketName: string,
- filename: string): Promise<void> {
+export async function storeBuffer(
+  buffer: Buffer,
+  bucketName: string,
+  filename: string
+): Promise<void> {
   const storage = new Storage();
   const bucket = storage.bucket(bucketName);
   const file = bucket.file(filename);
@@ -12,11 +15,10 @@ export async function storeBuffer(buffer: Buffer, bucketName: string,
   readable.push(buffer);
   readable.push(null);
 
-  const promise = new Promise<void>((resolve, reject) => {
-    readable.pipe(file.createWriteStream())
+  return new Promise<void>((resolve, reject) => {
+    readable
+      .pipe(file.createWriteStream())
       .on('error', reject)
       .on('finish', resolve);
   });
-
-  return promise;
 }
