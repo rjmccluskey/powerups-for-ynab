@@ -63,9 +63,6 @@ async function uploadTransactionsToAccount(
       }
     }
 
-    console.log(
-      `Uploading ${newTransactions.length} new transactions from ${account.note}`
-    );
     if (newTransactions.length > 0) {
       await ynab.transactions
         .createTransactions(budgetId, {
@@ -73,6 +70,9 @@ async function uploadTransactionsToAccount(
         })
         .catch(ynabErrorWrapper);
     }
+    console.log(
+      `Uploaded ${newTransactions.length} new transactions from ${account.note}`
+    );
   }
 }
 
