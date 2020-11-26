@@ -39,10 +39,7 @@ async function uploadTransactionsToAccount(
     const ynabTransactionsResponse = await ynab.transactions
       .getTransactionsByAccount(budgetId, account.id, sinceDate)
       .catch(ynabErrorWrapper);
-    const ynabTransactions = ynabTransactionsResponse.data.transactions.filter(
-      (transaction) =>
-        transaction.cleared === SaveTransaction.ClearedEnum.Uncleared
-    );
+    const ynabTransactions = ynabTransactionsResponse.data.transactions;
 
     const newTransactions: SaveTransaction[] = [];
     for (const pendingTransaction of pendingTransactions) {
@@ -63,9 +60,6 @@ async function uploadTransactionsToAccount(
       }
     }
 
-    console.log(
-      `Uploading ${newTransactions.length} new transactions from ${account.note}`
-    );
     if (newTransactions.length > 0) {
       await ynab.transactions
         .createTransactions(budgetId, {
@@ -73,6 +67,9 @@ async function uploadTransactionsToAccount(
         })
         .catch(ynabErrorWrapper);
     }
+    console.log(
+      `Uploaded ${newTransactions.length} new transactions from ${account.note}`
+    );
   }
 }
 
