@@ -1,4 +1,10 @@
-import { API, Account, SaveTransaction } from 'ynab';
+import {
+  API,
+  Account,
+  SaveTransaction,
+  TransactionDetail,
+  TransactionsResponse,
+} from 'ynab';
 import { ynabErrorWrapper, mapEveryAccount } from '@pfy/ynab-utils';
 import { throwMultiple, now } from '@pfy/utils';
 import { TransactionsByAccount, Transaction } from '../shared';
@@ -34,18 +40,16 @@ async function uploadTransactionsToAccount(
   pendingTransactions: Transaction[]
 ): Promise<void> {
   if (pendingTransactions && pendingTransactions.length > 0) {
-    const sinceDate = new Date();
-    sinceDate.setDate(sinceDate.getDate() - 10); // 10 days ago
-    const ynabTransactionsResponse = await ynab.transactions
+    const sinceDate = now().minus({ days: 10 }).toJSDate();
+    const ynabTransactionsResponse: TransactionsResponse = await ynab.transactions
       .getTransactionsByAccount(budgetId, account.id, sinceDate)
       .catch(ynabErrorWrapper);
-    const ynabTransactions = ynabTransactionsResponse.data.transactions;
+
+    const ynabTransactions = mapYnabTransactionsById(ynabTransactionsResponse);
 
     const newTransactions: SaveTransaction[] = [];
     for (const pendingTransaction of pendingTransactions) {
-      const existingTransaction = ynabTransactions.find((ynabTransaction) =>
-        pendingTransaction.matchesId(ynabTransaction.memo)
-      );
+      const existingTransaction = ynabTransactions[pendingTransaction.getId()];
       // Only upload new charges (negative amounts)
       if (!existingTransaction && pendingTransaction.amount < 0) {
         const date = convertDate(pendingTransaction.date);
@@ -71,6 +75,21 @@ async function uploadTransactionsToAccount(
       `Uploaded ${newTransactions.length} new transactions from ${account.note}`
     );
   }
+}
+
+function mapYnabTransactionsById(
+  transactionsResponse: TransactionsResponse
+): { [id: string]: TransactionDetail } {
+  return transactionsResponse.data.transactions.reduce(
+    (mapping, ynabTransaction) => {
+      const id = Transaction.extractId(ynabTransaction.memo);
+      if (id) {
+        mapping[id] = ynabTransaction;
+      }
+      return mapping;
+    },
+    {}
+  );
 }
 
 /**

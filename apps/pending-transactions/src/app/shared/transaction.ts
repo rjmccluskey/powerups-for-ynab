@@ -17,15 +17,15 @@ export class Transaction {
     return `${wrapper}integration-id:${this.id}${wrapper}`;
   }
 
-  matchesId(stringContainingId: string | null | undefined): boolean {
+  static extractId(stringContainingId?: string): string | null {
     if (!isString(stringContainingId)) {
-      return false;
+      return null;
     }
 
     const wrapper = Transaction.idWrapper;
     const regex = new RegExp(`\\${wrapper}.*\\${wrapper}`);
     const matches = stringContainingId.match(regex);
 
-    return Array.isArray(matches) && matches[0] === this.getId();
+    return (Array.isArray(matches) && matches[0]) || null;
   }
 }
