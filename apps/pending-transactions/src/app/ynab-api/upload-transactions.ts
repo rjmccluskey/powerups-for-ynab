@@ -39,10 +39,7 @@ async function uploadTransactionsToAccount(
     const ynabTransactionsResponse = await ynab.transactions
       .getTransactionsByAccount(budgetId, account.id, sinceDate)
       .catch(ynabErrorWrapper);
-    const ynabTransactions = ynabTransactionsResponse.data.transactions.filter(
-      (transaction) =>
-        transaction.cleared === SaveTransaction.ClearedEnum.Uncleared
-    );
+    const ynabTransactions = ynabTransactionsResponse.data.transactions;
 
     const newTransactions: SaveTransaction[] = [];
     for (const pendingTransaction of pendingTransactions) {
