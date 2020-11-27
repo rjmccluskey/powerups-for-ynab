@@ -76,7 +76,6 @@ function notATransfer(plaidTransaction: plaid.Transaction): boolean {
   if (!plaidTransaction.name) {
     return true;
   }
-  plaidTransaction.transaction_type;
   const match = plaidTransaction.name.match(/transfer/i);
   return match === null;
 }
