@@ -60,7 +60,6 @@ function mapPlaidToTransaction(
   plaidTransaction: plaid.Transaction
 ): Transaction {
   return new Transaction(
-    plaidTransaction.transaction_id,
     // Charge transactions from plaid come in with positive amounts so multiple by -1
     floatToMilliunits(plaidTransaction.amount) * -1,
     plaidTransaction.date,
