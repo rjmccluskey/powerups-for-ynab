@@ -4,7 +4,8 @@ const { exec } = require('child_process');
 const packageJson = require('../../package.json');
 
 const simplePackageJson = {
-  name: 'track-by-balance',
+  // Use the main package json name so that the lock matches
+  name: packageJson.name,
   version: '0.0.0',
   main: 'main.js',
   // Just copy all dependencies for now. Eventually this should be smarter
@@ -15,6 +16,11 @@ const simplePackageJson = {
 fs.writeFileSync(
   'dist/apps/track-by-balance/package.json',
   JSON.stringify(simplePackageJson)
+);
+
+fs.copyFileSync(
+  'package-lock.json',
+  'dist/apps/track-by-balance/package-lock.json'
 );
 
 const gcloudCommand = `
