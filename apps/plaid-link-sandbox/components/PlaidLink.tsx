@@ -19,7 +19,7 @@ export const PlaidLink = ({ linkToken, onSuccess, onExit }: PlaidLinkProps) => {
   if (ready && !error) {
     open();
   } else if (error) {
-    return error;
+    return <p>{error.message}</p>;
   }
 
   return null;
