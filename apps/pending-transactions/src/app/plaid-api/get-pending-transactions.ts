@@ -7,8 +7,22 @@ import { TransactionsByAccount, Transaction } from '../shared';
 export async function getPendingTransactions(): Promise<TransactionsByAccount> {
   console.log('Searching for pending transactions from bank...');
 
+  const mappings = await Promise.all(
+    config.accessTokens.map(getTransactionsByAccount)
+  );
+  const transactionsByAccount = Object.assign({}, ...mappings);
+
+  const totalAccounts = Object.keys(transactionsByAccount).length;
+  console.log(`Found pending transactions in ${totalAccounts} account(s).`);
+
+  return transactionsByAccount;
+}
+
+async function getTransactionsByAccount(
+  accessToken: string
+): Promise<TransactionsByAccount> {
   const plaidTransactions = await plaidClient().getAllTransactions(
-    config.plaidAccessToken,
+    accessToken,
     getStartDate(),
     getEndDate()
   );
@@ -17,9 +31,6 @@ export async function getPendingTransactions(): Promise<TransactionsByAccount> {
     .filter(amountIsValid)
     .filter(notATransfer)
     .reduce(transactionsByAccountReducer(plaidTransactions.accounts), {});
-
-  const totalAccounts = Object.keys(transactionsByAccount).length;
-  console.log(`Found pending transactions in ${totalAccounts} account(s).`);
 
   return transactionsByAccount;
 }
