@@ -8,8 +8,12 @@ export const main = async () => {
   const ynab = ynabApi();
   const accountNameToBalance = await mapBalancesByAccountName();
   await mapEveryAccount(ynab, async (account, budget) => {
-    const accountName = account.note;
-    const currentBalance = accountNameToBalance[accountName];
+    const note = account.note || '';
+    const [accountName, multiplierStr] = note.split('|');
+    const multiplier = parseInt(multiplierStr) || 1;
+    const currentBalance =
+      accountNameToBalance[accountName] &&
+      accountNameToBalance[accountName] * multiplier;
     if (currentBalance !== undefined && account.balance !== currentBalance) {
       const difference = currentBalance - account.balance;
       console.log(
