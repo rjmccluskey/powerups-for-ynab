@@ -30,8 +30,10 @@ async function getTransactionsByAccount(
             accessToken.length - 6
           )}`
         );
+        return null;
       }
-      return null;
+
+      throw e;
     });
 
   if (!plaidTransactions) {
