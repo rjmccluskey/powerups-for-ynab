@@ -21,11 +21,23 @@ export async function getPendingTransactions(): Promise<TransactionsByAccount> {
 async function getTransactionsByAccount(
   accessToken: string
 ): Promise<TransactionsByAccount> {
-  const plaidTransactions = await plaidClient().getAllTransactions(
-    accessToken,
-    getStartDate(),
-    getEndDate()
-  );
+  const plaidTransactions = await plaidClient()
+    .getAllTransactions(accessToken, getStartDate(), getEndDate())
+    .catch((e) => {
+      if (e?.error_code === 'ITEM_LOGIN_REQUIRED') {
+        console.log(
+          `Login required for account token ending in ...${accessToken.substring(
+            accessToken.length - 6
+          )}`
+        );
+      }
+      return null;
+    });
+
+  if (!plaidTransactions) {
+    return {};
+  }
+
   const transactionsByAccount = plaidTransactions.transactions
     .filter((transaction) => transaction.pending)
     .filter(amountIsValid)
