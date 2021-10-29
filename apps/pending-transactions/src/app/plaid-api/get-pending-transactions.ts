@@ -1,5 +1,5 @@
 import * as plaid from 'plaid';
-import { plaidClient } from '@pfy/plaid-utils';
+import { plaidClient, plaidErrorHandler } from '@pfy/plaid-utils';
 import { floatToMilliunits, now } from '@pfy/utils';
 import { config } from '../config';
 import { TransactionsByAccount, Transaction } from '../shared';
@@ -23,22 +23,7 @@ async function getTransactionsByAccount(
 ): Promise<TransactionsByAccount> {
   const plaidTransactions = await plaidClient()
     .getAllTransactions(accessToken, getStartDate(), getEndDate())
-    .catch((e) => {
-      const last6Token = accessToken.substring(accessToken.length - 6);
-      if (e?.error_code === 'ITEM_LOGIN_REQUIRED') {
-        console.log(
-          `Login required for account token ending in ...${last6Token}`
-        );
-        return null;
-      } else if (e?.error_code === 'PRODUCT_NOT_READY') {
-        console.log(
-          `Account with token ending in ...${last6Token} hasn't synced yet.`
-        );
-        return null;
-      }
-
-      throw e;
-    });
+    .catch(plaidErrorHandler(accessToken));
 
   if (!plaidTransactions) {
     return {};
