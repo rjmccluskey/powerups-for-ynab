@@ -24,11 +24,15 @@ async function getTransactionsByAccount(
   const plaidTransactions = await plaidClient()
     .getAllTransactions(accessToken, getStartDate(), getEndDate())
     .catch((e) => {
+      const last6Token = accessToken.substring(accessToken.length - 6);
       if (e?.error_code === 'ITEM_LOGIN_REQUIRED') {
         console.log(
-          `Login required for account token ending in ...${accessToken.substring(
-            accessToken.length - 6
-          )}`
+          `Login required for account token ending in ...${last6Token}`
+        );
+        return null;
+      } else if (e?.error_code === 'PRODUCT_NOT_READY') {
+        console.log(
+          `Account with token ending in ...${last6Token} hasn't synced yet.`
         );
         return null;
       }
