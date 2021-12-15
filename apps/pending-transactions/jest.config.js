@@ -4,6 +4,7 @@ module.exports = {
   moduleNameMapper: {
     '^[./]+config$': '<rootDir>/src/app/config-test.js',
   },
-  globals: { 'ts-jest': { tsConfig: '<rootDir>/tsconfig.spec.json' } },
+  globals: { 'ts-jest': { tsconfig: '<rootDir>/tsconfig.spec.json' } },
   displayName: 'pending-transactions',
+  testEnvironment: 'node',
 };
