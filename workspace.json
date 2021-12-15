@@ -1,98 +1,6 @@
 {
   "version": 1,
   "projects": {
-    "pending-transactions": {
-      "root": "apps/pending-transactions",
-      "sourceRoot": "apps/pending-transactions/src",
-      "projectType": "application",
-      "prefix": "pending-transactions",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@nrwl/node:build",
-          "options": {
-            "outputPath": "dist/apps/pending-transactions",
-            "main": "apps/pending-transactions/src/main.ts",
-            "tsConfig": "apps/pending-transactions/tsconfig.app.json",
-            "assets": ["apps/pending-transactions/src/assets"]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/pending-transactions/src/environments/environment.ts",
-                  "with": "apps/pending-transactions/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "pending-transactions:build"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/pending-transactions/**/*.ts",
-              "apps/pending-transactions/**/*.spec.ts",
-              "apps/pending-transactions/**/*.d.ts"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/pending-transactions/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "deploy": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "node apps/pending-transactions/deploy.js"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "utils": {
-      "root": "libs/utils",
-      "sourceRoot": "libs/utils/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/utils/**/*.ts",
-              "libs/utils/**/*.spec.ts",
-              "libs/utils/**/*.spec.tsx",
-              "libs/utils/**/*.spec.js",
-              "libs/utils/**/*.spec.jsx",
-              "libs/utils/**/*.d.ts"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/utils/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "file-storage": {
       "root": "libs/file-storage",
       "sourceRoot": "libs/file-storage/src",
@@ -110,31 +18,40 @@
               "libs/file-storage/**/*.spec.jsx",
               "libs/file-storage/**/*.d.ts"
             ]
-          }
+          },
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/file-storage/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": [
+            "coverage/libs/file-storage"
+          ]
         }
-      }
+      },
+      "tags": []
     },
-    "track-by-balance": {
-      "root": "apps/track-by-balance",
-      "sourceRoot": "apps/track-by-balance/src",
+    "pending-transactions": {
+      "root": "apps/pending-transactions",
+      "sourceRoot": "apps/pending-transactions/src",
       "projectType": "application",
-      "prefix": "track-by-balance",
+      "prefix": "pending-transactions",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
-            "outputPath": "dist/apps/track-by-balance",
-            "main": "apps/track-by-balance/src/main.ts",
-            "tsConfig": "apps/track-by-balance/tsconfig.app.json",
-            "assets": ["apps/track-by-balance/src/assets"]
+            "outputPath": "dist/apps/pending-transactions",
+            "main": "apps/pending-transactions/src/main.ts",
+            "tsConfig": "apps/pending-transactions/tsconfig.app.json",
+            "assets": [
+              "apps/pending-transactions/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -143,64 +60,57 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/track-by-balance/src/environments/environment.ts",
-                  "with": "apps/track-by-balance/src/environments/environment.prod.ts"
+                  "replace": "apps/pending-transactions/src/environments/environment.ts",
+                  "with": "apps/pending-transactions/src/environments/environment.prod.ts"
                 }
               ]
             }
-          }
+          },
+          "outputs": [
+            "{options.outputPath}"
+          ]
         },
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "track-by-balance:build"
+            "buildTarget": "pending-transactions:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/track-by-balance/**/*.ts"]
-          }
+            "lintFilePatterns": [
+              "apps/pending-transactions/**/*.ts",
+              "apps/pending-transactions/**/*.spec.ts",
+              "apps/pending-transactions/**/*.d.ts"
+            ]
+          },
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/track-by-balance/jest.config.js",
+            "jestConfig": "apps/pending-transactions/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": [
+            "coverage/apps/pending-transactions"
+          ]
         },
         "deploy": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "commands": [
               {
-                "command": "node apps/track-by-balance/deploy.js"
+                "command": "node apps/pending-transactions/deploy.js"
               }
             ]
           }
         }
-      }
-    },
-    "ynab-utils": {
-      "root": "libs/ynab-utils",
-      "sourceRoot": "libs/ynab-utils/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/ynab-utils/**/*.ts"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/ynab-utils/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
+      },
+      "tags": []
     },
     "plaid-link-sandbox": {
       "root": "apps/plaid-link-sandbox",
@@ -216,7 +126,10 @@
           },
           "configurations": {
             "production": {}
-          }
+          },
+          "outputs": [
+            "{options.outputPath}"
+          ]
         },
         "serve": {
           "builder": "@nrwl/next:server",
@@ -240,17 +153,26 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/plaid-link-sandbox/**/*.{ts,tsx}"]
-          }
+            "lintFilePatterns": [
+              "apps/plaid-link-sandbox/**/*.{ts,tsx}"
+            ]
+          },
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/plaid-link-sandbox/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": [
+            "coverage/apps/plaid-link-sandbox"
+          ]
         }
-      }
+      },
+      "tags": []
     },
     "plaid-utils": {
       "root": "libs/plaid-utils",
@@ -261,79 +183,165 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/plaid-utils/**/*.ts"]
-          }
+            "lintFilePatterns": [
+              "libs/plaid-utils/**/*.ts"
+            ]
+          },
+          "outputs": [
+            "{options.outputFile}"
+          ]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/plaid-utils/jest.config.js",
             "passWithNoTests": true
+          },
+          "outputs": [
+            "coverage/libs/plaid-utils"
+          ]
+        }
+      },
+      "tags": []
+    },
+    "track-by-balance": {
+      "root": "apps/track-by-balance",
+      "sourceRoot": "apps/track-by-balance/src",
+      "projectType": "application",
+      "prefix": "track-by-balance",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/track-by-balance",
+            "main": "apps/track-by-balance/src/main.ts",
+            "tsConfig": "apps/track-by-balance/tsconfig.app.json",
+            "assets": [
+              "apps/track-by-balance/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/track-by-balance/src/environments/environment.ts",
+                  "with": "apps/track-by-balance/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          },
+          "outputs": [
+            "{options.outputPath}"
+          ]
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "track-by-balance:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/track-by-balance/**/*.ts"
+            ]
+          },
+          "outputs": [
+            "{options.outputFile}"
+          ]
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/track-by-balance/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": [
+            "coverage/apps/track-by-balance"
+          ]
+        },
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "node apps/track-by-balance/deploy.js"
+              }
+            ]
           }
         }
-      }
+      },
+      "tags": []
+    },
+    "utils": {
+      "root": "libs/utils",
+      "sourceRoot": "libs/utils/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/utils/**/*.ts",
+              "libs/utils/**/*.spec.ts",
+              "libs/utils/**/*.spec.tsx",
+              "libs/utils/**/*.spec.js",
+              "libs/utils/**/*.spec.jsx",
+              "libs/utils/**/*.d.ts"
+            ]
+          },
+          "outputs": [
+            "{options.outputFile}"
+          ]
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/utils/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": [
+            "coverage/libs/utils"
+          ]
+        }
+      },
+      "tags": []
+    },
+    "ynab-utils": {
+      "root": "libs/ynab-utils",
+      "sourceRoot": "libs/ynab-utils/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ynab-utils/**/*.ts"
+            ]
+          },
+          "outputs": [
+            "{options.outputFile}"
+          ]
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ynab-utils/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": [
+            "coverage/libs/ynab-utils"
+          ]
+        }
+      },
+      "tags": []
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/node"
-  },
-  "schematics": {
-    "@nrwl/workspace": {
-      "library": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/cypress": {
-      "cypress-project": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/react": {
-      "application": {
-        "linter": "eslint",
-        "babel": true
-      },
-      "library": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/next": {
-      "application": {
-        "style": "styled-components",
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/web": {
-      "application": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/node": {
-      "application": {
-        "linter": "eslint"
-      },
-      "library": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/nx-plugin": {
-      "plugin": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/nest": {
-      "application": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/express": {
-      "application": {
-        "linter": "eslint"
-      },
-      "library": {
-        "linter": "eslint"
-      }
-    }
-  },
-  "defaultProject": "pending-transactions"
+  }
 }
